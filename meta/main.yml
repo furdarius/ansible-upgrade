@@ -11,6 +11,6 @@ galaxy_info:
         - xenial
         - yakkety
   galaxy_tags:
-		- upgrade
+    - upgrade
 
 dependencies: []
