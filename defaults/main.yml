@@ -1,0 +1,25 @@
+---
+
+# Update the apt cache if its older than the cache_valid_time.
+# This option is set in seconds.
+upgrade_apt_cache: 3600
+
+# Allowed values: no|yes|safe|full|dist
+#
+# If yes or safe, performs an aptitude safe-upgrade.
+# If full, performs an aptitude full-upgrade.
+# If dist, performs an apt-get dist-upgrade.
+# Note: This does not upgrade a specific package, use state=latest for that.
+upgrade_type: dist
+
+# Allowed values: true|false
+#
+# If true then machine will be
+# rebooted after upgrade (only if required)
+upgrade_reboot: true
+
+# List of packages which will be installed
+# on remote machine
+upgrade_required_packages:
+  - software-properties-common
+  - python-software-properties

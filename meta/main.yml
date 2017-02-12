@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Artemiy Ryabinkov
+  description: Upgrade software on remote machine
+  license: MIT
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+        - yakkety
+  galaxy_tags:
+		- upgrade
+
+dependencies: []

@@ -1,0 +1,40 @@
+---
+- name: Install aptitude
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: yes
+    cache_valid_time: "{{ upgrade_apt_cache }}"
+
+- name: "Upgrade: {{ upgrade_type }}"
+  apt:
+    upgrade: "{{ upgrade_type }}"
+    update_cache: yes
+    cache_valid_time: "{{ upgrade_apt_cache }}"
+  notify:
+    - autoremove
+    - autoclean
+
+- name: Install required packages
+  apt:
+    name: '{{ item }}'
+    state: latest
+  with_items: '{{ upgrade_required_packages }}'
+
+- name: Check if reboot is required
+  stat:
+    path: /var/run/reboot-required
+  register: stat
+  when: upgrade_reboot
+
+- name: Reboot machine
+  shell: sleep 2 && shutdown -r now "Ansible updates triggered"
+  async: 1
+  poll: 0
+  ignore_errors: true
+  when: (upgrade_reboot and stat.stat.exists)
+
+- name: Wait for host to be ready
+  become: false
+  local_action: wait_for port={{ ansible_port }} host={{ ansible_host | default(inventory_hostname) }} state=started delay=30 timeout=300
+  when: (upgrade_reboot and stat.stat.exists)

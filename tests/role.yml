@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  roles:
+    - ansible-upgrade
+  vars:
+    upgrade_apt_cache: 3600
+    upgrade_type: safe
+    upgrade_reboot: false
+    upgrade_required_packages:
+      - software-properties-common
+      - python-software-properties
